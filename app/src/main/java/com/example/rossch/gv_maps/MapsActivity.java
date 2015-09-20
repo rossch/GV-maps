@@ -51,6 +51,8 @@ public class MapsActivity extends FragmentActivity {
                 setUpMap();
             }
         }
+
+
     }
 
     /**
@@ -61,5 +63,8 @@ public class MapsActivity extends FragmentActivity {
      */
     private void setUpMap() {
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+
+        LatLng gv_coords = new LatLng(42.963036, -85.891823);
+        mMap.addMarker(new MarkerOptions().position(gv_coords).title("GV"));
     }
 }
