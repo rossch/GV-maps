@@ -1,5 +1,36 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:id="@+id/map" tools:context=".MapsActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    tools:layout="@layout/activity_maps" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:id="@+id/map" tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+    <!--tools:layout="@layout/activity_maps"-->
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Location"
+        android:id="@+id/CLButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="goToCurrentLocation" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go To Main"
+        android:id="@+id/button2"
+        android:layout_alignTop="@+id/CLButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="goToMain" />
+
+
+</RelativeLayout>

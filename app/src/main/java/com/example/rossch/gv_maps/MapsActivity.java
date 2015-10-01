@@ -1,5 +1,6 @@
 package com.example.rossch.gv_maps;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -7,6 +8,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.*;
+import android.view.*;
+
 
 public class MapsActivity extends FragmentActivity {
 
@@ -17,6 +23,7 @@ public class MapsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+
     }
 
     @Override
@@ -66,5 +73,17 @@ public class MapsActivity extends FragmentActivity {
 
         LatLng gv_coords = new LatLng(42.963036, -85.891823);
         mMap.addMarker(new MarkerOptions().position(gv_coords).title("GV"));
+    }
+
+
+    public void goToCurrentLocation(View view) {
+        LatLng coordinate = new LatLng(42.963036, -85.891823);
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
+        mMap.animateCamera(yourLocation);
+    }
+
+    public void goToMain(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
