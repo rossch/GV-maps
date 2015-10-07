@@ -73,6 +73,10 @@ public class MapsActivity extends FragmentActivity {
 
         LatLng gv_coords = new LatLng(42.963036, -85.891823);
         mMap.addMarker(new MarkerOptions().position(gv_coords).title("GV"));
+
+        LatLng coordinate = new LatLng(42.963036, -85.891823);
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
+        mMap.animateCamera(yourLocation);
     }
 
 
