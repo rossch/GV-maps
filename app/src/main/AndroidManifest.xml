@@ -42,6 +42,10 @@
             android:name=".NavMenu"
             android:label="@string/title_activity_nav_menu" >
         </activity>
+        <activity
+            android:name=".BuildingsActivity"
+            android:label="@string/title_activity_buildings" >
+        </activity>
     </application>
 
 </manifest>

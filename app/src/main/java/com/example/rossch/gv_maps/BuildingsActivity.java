@@ -6,19 +6,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.*;
 import android.content.*;
+import android.widget.TableLayout;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class BuildingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_buildings);
+        fillTableView(findViewById(R.id.buildingsTableLayout));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_buildings, menu);
         return true;
     }
 
@@ -37,18 +40,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void goToMap(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
+    public void goToMain(View view){
+        Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
     }
 
-    public void goToBuildings(View view) {
-        Intent intent = new Intent (this, BuildingsActivity.class);
-        startActivity(intent);
-    }
-
-    public void goToNav(View view) {
-        Intent intent = new Intent(this, NavMenu.class);
-        startActivity(intent);
+    public void fillTableView(View view){
+        TextView tview = (TextView)findViewById(R.id.tr1Text);
+        tview.setText("Kirkhof Center");
     }
 }
