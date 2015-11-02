@@ -1,5 +1,6 @@
 package com.example.rossch.gv_maps;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.*;
 import android.view.*;
+import android.widget.Toast;
 
 
 public class MapsActivity extends FragmentActivity {
@@ -23,6 +25,19 @@ public class MapsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+        String room;
+        try {
+            Bundle bundle = getIntent().getExtras();
+            room = bundle.getString("room");
+            Context context = getApplicationContext();
+            CharSequence text = "Here is the room: " + room;
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+        catch (NullPointerException e) {
+            //Means wasn't redirected from room
+        }
 
     }
 

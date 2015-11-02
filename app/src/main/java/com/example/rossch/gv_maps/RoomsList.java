@@ -1,15 +1,18 @@
 package com.example.rossch.gv_maps;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -58,13 +61,24 @@ public class RoomsList extends AppCompatActivity {
         for (int i = 0; i < myObjects.size(); i++) {
             ParseObject temp = myObjects.get(i);
             String tempRooms = (String)temp.get("Rooms");
-            String[] roomsList = tempRooms.split(",");
+            final String[] roomsList = tempRooms.split(",");
             for(int j = 0; j < roomsList.length; j++){
                 TableRow t1 = new TableRow(this);
                 t1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
                 TextView myText = new TextView(this);
                 roomsList[j] = roomsList[j].replaceAll("\"", "").replaceAll("\\[", "").replaceAll("]", "");
                 myText.setText(roomsList[j]);
+                final int TEMPINT = j;
+                t1.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("room", roomsList[TEMPINT]);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                });
                 t1.addView(myText);
                 tableMain.addView(t1);
             }
