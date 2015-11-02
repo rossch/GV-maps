@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,6 +69,7 @@ public class RoomsList extends AppCompatActivity {
                 TextView myText = new TextView(this);
                 roomsList[j] = roomsList[j].replaceAll("\"", "").replaceAll("\\[", "").replaceAll("]", "");
                 myText.setText(roomsList[j]);
+                myText.setTextSize(TypedValue.COMPLEX_UNIT_PX, 80);
                 final int TEMPINT = j;
                 t1.setOnClickListener(new OnClickListener() {
                     @Override

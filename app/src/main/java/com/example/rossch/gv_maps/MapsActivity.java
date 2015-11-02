@@ -90,14 +90,14 @@ public class MapsActivity extends FragmentActivity {
         mMap.addMarker(new MarkerOptions().position(gv_coords).title("GV"));
 
         LatLng coordinate = new LatLng(42.963036, -85.891823);
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15);
         mMap.animateCamera(yourLocation);
     }
 
 
     public void goToCurrentLocation(View view) {
         LatLng coordinate = new LatLng(42.963036, -85.891823);
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15);
         mMap.animateCamera(yourLocation);
     }
 
