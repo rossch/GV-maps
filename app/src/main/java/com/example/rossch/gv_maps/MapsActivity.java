@@ -31,7 +31,7 @@ public class MapsActivity extends FragmentActivity {
             room = bundle.getString("room");
             Context context = getApplicationContext();
             CharSequence text = "Here is the room: " + room;
-            int duration = Toast.LENGTH_SHORT;
+            int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }

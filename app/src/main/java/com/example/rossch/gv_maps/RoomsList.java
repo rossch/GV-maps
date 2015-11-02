@@ -22,6 +22,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoomsList extends AppCompatActivity {
@@ -43,6 +44,7 @@ public class RoomsList extends AppCompatActivity {
         getRoomData(building);
     }
 
+    //Actually makes the request to the parse database and grabs all of the hallways with rooms
     public void getRoomData(String buildingName) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Mackinac");
         query.whereExists("Rooms");
@@ -61,26 +63,28 @@ public class RoomsList extends AppCompatActivity {
         tableMain = (TableLayout) findViewById(R.id.roomsTable);
         for (int i = 0; i < myObjects.size(); i++) {
             ParseObject temp = myObjects.get(i);
-            String tempRooms = (String)temp.get("Rooms");
-            final String[] roomsList = tempRooms.split(",");
-            for(int j = 0; j < roomsList.length; j++){
+            final ArrayList tempRoomsArray = (ArrayList) temp.get("RoomArray");
+            for(int j = 0; j < tempRoomsArray.size(); j++){
                 TableRow t1 = new TableRow(this);
                 t1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
                 TextView myText = new TextView(this);
-                roomsList[j] = roomsList[j].replaceAll("\"", "").replaceAll("\\[", "").replaceAll("]", "");
-                myText.setText(roomsList[j]);
+                myText.setText((String) tempRoomsArray.get(j));
                 myText.setTextSize(TypedValue.COMPLEX_UNIT_PX, 80);
                 final int TEMPINT = j;
+
+                //Set on click listener for every new table row
                 t1.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), MapsActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("room", roomsList[TEMPINT]);
+                        bundle.putString("room", (String) tempRoomsArray.get(TEMPINT));
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
                 });
+
+
                 t1.addView(myText);
                 tableMain.addView(t1);
             }
