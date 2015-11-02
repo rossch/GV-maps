@@ -16,4 +16,5 @@
 
     <string name="action_example">Example action</string>
     <string name="title_activity_buildings">buildings</string>
+    <string name="title_activity_rooms_list">RoomsList</string>
 </resources>
