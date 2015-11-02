@@ -8,14 +8,13 @@ import android.view.*;
 import android.content.*;
 import android.widget.TableLayout;
 import android.widget.TextView;
-
+import com.parse.Parse;
 public class BuildingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buildings);
-        fillTableView(findViewById(R.id.buildingsTableLayout));
     }
 
     @Override
@@ -45,8 +44,12 @@ public class BuildingsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void fillTableView(View view){
-        TextView tview = (TextView)findViewById(R.id.tr1Text);
-        tview.setText("Kirkhof Center");
+    public void macRoomsList(View view){
+        Intent intent = new Intent (this, RoomsList.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("Building", "Mackinac");
+        intent.putExtras(bundle);
+        startActivity(intent);
+
     }
 }
