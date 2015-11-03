@@ -1,18 +1,33 @@
 package com.example.rossch.gv_maps;
 
+import android.app.Activity;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.*;
 import android.content.*;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends Activity {
+    ListView lv;
+    WifiManager wifiMan;
+    WifiScanReceiver wifiReceiver;
+    String[] wifis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        wifiMan = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+        wifiReceiver = new WifiScanReceiver();
+
+        wifiMan.startScan();
     }
 
     @Override
@@ -35,6 +50,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class WifiScanReceiver extends BroadcastReceiver{
+        public void onReceive(Context c, Intent intent) {
+            List<ScanResult> wifiScanList = wifiMan.getScanResults();
+            wifis = new String[wifiScanList.size()];
+
+            for(int i = 0; i < wifiScanList.size(); i++){
+                wifis[i] = ((wifiScanList.get(i)).toString());
+            }
+            lv.setAdapter(new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,wifis));
+        }
     }
 
     public void goToMap(View view) {
