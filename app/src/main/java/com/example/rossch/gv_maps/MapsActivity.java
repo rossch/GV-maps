@@ -140,7 +140,7 @@ public class MapsActivity extends FragmentActivity {
      * createBuildingSections
      */
     private void createBuildingSections() {
-        createSectionB();
+        //createSectionB();
         createSectionA();
         createSectionC();
         createSectionD();

@@ -1,6 +1,7 @@
 package com.example.rossch.gv_maps;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,6 +71,7 @@ public class RoomsList extends AppCompatActivity {
                 TextView myText = new TextView(this);
                 myText.setText((String) tempRoomsArray.get(j));
                 myText.setTextSize(TypedValue.COMPLEX_UNIT_PX, 80);
+                myText.setTextColor(Color.parseColor("#FFFFFF"));
                 final int TEMPINT = j;
 
                 //Set on click listener for every new table row

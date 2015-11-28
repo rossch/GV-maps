@@ -5,7 +5,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.rossch.gv_maps.BuildingsActivity"
-    android:id="@+id/buildingsTableLayout">
+    android:id="@+id/buildingsTableLayout"
+    android:background="@color/material_grey_900">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -27,7 +28,8 @@
                 android:id="@+id/tr1Text"
                 android:textSize="24dp"
                 android:text="Mackinac Hall"
-                android:onClick="macRoomsList" />
+                android:onClick="macRoomsList"
+                android:textColor="#FFF" />
 
         </TableRow>
 

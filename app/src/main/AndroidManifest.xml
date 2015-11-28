@@ -37,15 +37,15 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="Main Menu" >
         </activity>
         <activity
             android:name=".NavMenu"
-            android:label="@string/title_activity_nav_menu" >
+            android:label="Navigation" >
         </activity>
         <activity
             android:name=".BuildingsActivity"
-            android:label="@string/title_activity_buildings" >
+            android:label="Buildings" >
         </activity>
         <activity
             android:name=".RoomsList"
