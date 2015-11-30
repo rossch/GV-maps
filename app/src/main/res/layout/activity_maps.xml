@@ -32,5 +32,15 @@
         android:layout_alignParentStart="true"
         android:onClick="goToMain" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SlideView"
+        android:id="@+id/slideButton"
+        android:layout_above="@+id/button2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="goToSlide" />
+
 
 </RelativeLayout>

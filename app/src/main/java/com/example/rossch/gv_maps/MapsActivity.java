@@ -18,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -104,6 +105,7 @@ public class MapsActivity extends FragmentActivity {
     private void setUpMap() {
         // add GV campus marker
         LatLng gv_coords = new LatLng(42.963036, -85.891823);
+
         gvMap.addMarker(new MarkerOptions().position(gv_coords).title("GV"));
 
         // set Mackinaw building bounds
@@ -111,8 +113,10 @@ public class MapsActivity extends FragmentActivity {
         LatLng mack_sw = new LatLng(42.965859, -85.887925);
         mackinawBounds = new LatLngBounds(mack_sw, mack_ne);
 
+
+
         // create building sections
-        createBuildingSections();
+        //createBuildingSections();
 
         // add Mackinaw building section markers
         //addMackinacBuildingSectionMarkers();
