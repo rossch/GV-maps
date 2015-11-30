@@ -1,54 +1,169 @@
 package com.example.rossch.gv_maps.Components;
+import android.graphics.Color;
 
+import com.example.rossch.gv_maps.MapsActivity;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
+import android.util.Log;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Hallway {
 
-    /* PUBLIC */
-    public HallwaySide side1;
-    public HallwaySide side2;
-    public int sideNumber;
-    public String direction;
-    public double width;
-    public double length;
+    // PRIVATE
+    private String direction;
+    private double width;
+    private double length;
+    private String name;
 
-    /**
-     * CONSTRUCTOR
-     *
-     * side1 is either W/N side
-     * side2 is either E/S side
-     *
-     * hallway sides determined by 1 at NW corner going counter clockwise
-     */
-    public Hallway(HallwaySide side1, HallwaySide side2, int sideNumber, String direction) {
-        this.side1 = side1;
-        this.side2 = side2;
-        this.sideNumber = sideNumber;
+    private LatLng side1_start;
+    private LatLng side1_end;
+    private LatLng side2_start;
+    private LatLng side2_end;
+    private ArrayList<Room> side1_rooms;
+    private ArrayList<Room> side2_rooms;
+    private HashMap<LatLng, String> specialMarkerMap;
+
+    private final int fillColor = Color.GRAY;
+    private final int outlineColor = Color.GRAY;
+
+    // PUBLIC
+    public PolygonOptions hallwayPolygonOptions;
+
+    // DEBUG TAG
+    private static final String TAG = Hallway.class.getSimpleName();
+
+    // CONSTRUCTOR
+    public Hallway(LatLng nwCorner, double width, double length, String direction, String name) {
+        this.name = name;
+        this.width = width;
+        this.length = length;
         this.direction = direction;
-        //calculateDimensions();
+        this.side1_start = nwCorner;
+        createHallway();
     }
 
     /**
-     * drawHallway
+     * Creates the hallway's PolygonOptions object
+     */
+    private void createHallway() {
+        hallwayPolygonOptions = new PolygonOptions();
+        specialMarkerMap = new HashMap<LatLng, String>();
+        hallwayPolygonOptions.fillColor(fillColor);
+        hallwayPolygonOptions.strokeColor(outlineColor);
+        calculateDimensions();
+        this.side1_rooms = new ArrayList<Room>();
+        this.side2_rooms = new ArrayList<Room>();
+    }
+
+    /**
+     * Determines the dimensions of the hallway
+     */
+    private void calculateDimensions() {
+        if (direction == "horizontal") {
+            side1_end = DistanceCalculator.geoCordFromFeetDistance(side1_start, length, "E");
+            side2_start = DistanceCalculator.geoCordFromFeetDistance(side1_start, width, "S");
+            side2_end = DistanceCalculator.geoCordFromFeetDistance(side2_start, length, "E");
+            hallwayPolygonOptions.add(side1_start, side1_end, side2_end, side2_start);
+        } else if (direction == "vertical") {
+            side1_end = DistanceCalculator.geoCordFromFeetDistance(side1_start, length, "S");
+            side2_start = DistanceCalculator.geoCordFromFeetDistance(side1_start, width, "E");
+            side2_end = DistanceCalculator.geoCordFromFeetDistance(side2_start, length, "S");
+            hallwayPolygonOptions.add(side1_start, side2_start, side2_end, side1_end);
+        }
+    }
+
+    /**
+     * Draws the hallway and its rooms on the given map
      */
     public void drawHallway(GoogleMap map) {
-        // hall ways sides
-        map.addPolyline(side1.line);
-        map.addPolyline(side2.line);
-        // rooms
-        for (Room r : side1.rooms) {
-            map.addPolygon(r.polygonOptions);
+        // hallway
+        map.addPolygon(hallwayPolygonOptions);
+        // side 1 rooms
+        for (Room r1 : side1_rooms) {
+            r1.drawRoom(map);
         }
-        for (Room r2 : side2.rooms) {
-            map.addPolygon(r2.polygonOptions);
+        // side 2 rooms
+        for (Room r2 : side2_rooms) {
+            r2.drawRoom(map);
+        }
+        // special markers
+        for (LatLng s : specialMarkerMap.keySet()) {
+            map.addMarker(new MarkerOptions()
+                    .position(s)
+                    .title(specialMarkerMap.get(s))
+                    .icon(BitmapDescriptorFactory.fromAsset((String) MapsActivity.specialMarkerIconMap.get(specialMarkerMap.get(s))))
+            );
+        }
+
+        printRoomTable();
+    }
+
+    /**
+     * Adds a room entrance points to a hallway side
+     */
+    public void addRoom(int hallwaySide, Room room) {
+        // side 1
+        if (hallwaySide == 1) {
+            side1_rooms.add(room);
+        }
+        // side 2
+        else if (hallwaySide == 2) {
+            side2_rooms.add(room);
         }
     }
 
-    private void calculateDimensions() {
-        width = DistanceCalculator.feetBetweenGeoCoordinates(side1.point1, side2.point1);
-        length = side1.length;
+    /**
+     * Adds a special marker to the hallway
+     */
+    public void addSpecialMarker(LatLng location, String type) {
+        if (!specialMarkerMap.containsKey(location))
+            specialMarkerMap.put(location, type);
+    }
+
+    // GETTERS
+
+    /**
+     * Returns the name of the hallway
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Returns the starting point for side 1 of hallway
+     */
+    public LatLng getSide1_start() {
+        return this.side1_start;
+    }
+
+    /**
+     * Returns the starting point for side 2 of hallway
+     */
+    public LatLng getSide2_start() {
+        return this.side2_start;
+    }
+
+    /**
+     * Returns the direction of the hallway
+     */
+    public String getDirection() {
+        return this.direction;
+    }
+
+    public void printRoomTable() {
+        Log.d(TAG, "Hallway Name --- " + name + " ---");
+        for (Room r1 : side1_rooms) {
+            Log.d(TAG, r1.getName());
+        }
+        for (Room r2 : side2_rooms) {
+            Log.d(TAG, r2.getName());
+        }
     }
 
 }//END Hallway.java
