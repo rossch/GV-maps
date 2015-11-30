@@ -27,7 +27,7 @@ public class Hallway {
     private LatLng side2_end;
     private ArrayList<Room> side1_rooms;
     private ArrayList<Room> side2_rooms;
-    private HashMap<LatLng, String> specialMarkerMap;
+    private HashMap<String, Room> specialMarkerMap;
 
     private final int fillColor = Color.GRAY;
     private final int outlineColor = Color.GRAY;
@@ -53,7 +53,7 @@ public class Hallway {
      */
     private void createHallway() {
         hallwayPolygonOptions = new PolygonOptions();
-        specialMarkerMap = new HashMap<LatLng, String>();
+        specialMarkerMap = new HashMap<String, Room>();
         hallwayPolygonOptions.fillColor(fillColor);
         hallwayPolygonOptions.strokeColor(outlineColor);
         calculateDimensions();
@@ -93,11 +93,12 @@ public class Hallway {
             r2.drawRoom(map);
         }
         // special markers
-        for (LatLng s : specialMarkerMap.keySet()) {
+        for (String s : specialMarkerMap.keySet()) {
+            Room room = specialMarkerMap.get(s);
             map.addMarker(new MarkerOptions()
-                    .position(s)
-                    .title(specialMarkerMap.get(s))
-                    .icon(BitmapDescriptorFactory.fromAsset((String) MapsActivity.specialMarkerIconMap.get(specialMarkerMap.get(s))))
+                    .position(room.getLocation())
+                    .title(room.getName())
+                    .icon(BitmapDescriptorFactory.fromAsset((String) MapsActivity.specialMarkerIconMap.get(room.getType())))
             );
         }
 
@@ -121,9 +122,11 @@ public class Hallway {
     /**
      * Adds a special marker to the hallway
      */
-    public void addSpecialMarker(LatLng location, String type) {
-        if (!specialMarkerMap.containsKey(location))
-            specialMarkerMap.put(location, type);
+    public void addSpecialMarker(String name, LatLng location, String type, String hallwayName) {
+        if (!specialMarkerMap.containsKey(name)) {
+            Room room = new Room(name, location, hallwayName, type);
+            specialMarkerMap.put(name, room);
+        }
     }
 
     // GETTERS
@@ -158,11 +161,20 @@ public class Hallway {
 
     public void printRoomTable() {
         Log.d(TAG, "Hallway Name --- " + name + " ---");
+        String line;
         for (Room r1 : side1_rooms) {
-            Log.d(TAG, r1.getName());
+            line = r1.getName() + " ";
+            line += String.valueOf(r1.getLocation().latitude) + " ";
+            line += String.valueOf(r1.getLocation().longitude) + " ";
+            line += name;
+            Log.d(TAG, line);
         }
         for (Room r2 : side2_rooms) {
-            Log.d(TAG, r2.getName());
+            line = r2.getName() + " ";
+            line += String.valueOf(r2.getLocation().latitude) + " ";
+            line += String.valueOf(r2.getLocation().longitude) + " ";
+            line += name;
+            Log.d(TAG, line);
         }
     }
 

@@ -35,6 +35,7 @@ public class MapsActivity extends FragmentActivity {
     private static class IconMap extends HashMap {
         {
             put("Stairs", "stairs_marker.png");
+            put("Restroom", "restroom.png");
         }
     }
     public static final HashMap specialMarkerIconMap = new IconMap();

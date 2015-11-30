@@ -15,9 +15,12 @@ public class Room {
     private String name;
     private LatLng doorLocation;
     private String type;
+    private String hallwayName;
 
     // CONSTRUCTOR
-    public Room(String name, LatLng doorLocation) {
+    public Room(String name, LatLng doorLocation, String hallwayName, String type) {
+        this.type = type;
+        this.hallwayName = hallwayName;
         this.doorLocation = doorLocation;
         this.name = name;
     }
@@ -47,6 +50,20 @@ public class Room {
      */
     public LatLng getLocation() {
         return this.doorLocation;
+    }
+
+    /**
+     * Returns the type of the room
+     */
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Returns the hallway name that the room belongs to
+     */
+    public String getHallwayName() {
+        return this.hallwayName;
     }
 
 }//END Room.java

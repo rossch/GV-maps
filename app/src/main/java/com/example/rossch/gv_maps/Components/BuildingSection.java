@@ -61,16 +61,16 @@ public class BuildingSection {
     /**
      * Adds a special marker to a hallway
      */
-    public void addHallwaySpecialMarker(String hallwayName, LatLng location, String type) {
+    public void addHallwaySpecialMarker(String name, LatLng location, String type, String hallwayName) {
         if (hallwayMap.containsKey(hallwayName))
-            hallwayMap.get(hallwayName).addSpecialMarker(location, type);
+            hallwayMap.get(hallwayName).addSpecialMarker(name, location, type, hallwayName);
     }
 
     /**
      * Adds a list of rooms to a specified hallway
      */
     public void addHallwayRooms(String hallwayName, int hallwaySide, String namePrefix, int totalRooms, int startingRoomNumber, int roomNumberIncrement,
-                                double roomLength, double startingLocationOffset) {
+                                double roomLength, double startingLocationOffset, String type) {
         // check if hallway exists
         if (hallwayMap.containsKey(hallwayName)) {
             int roomNumber = startingRoomNumber;
@@ -95,7 +95,7 @@ public class BuildingSection {
             // add rooms
             for (int i = 0; i < totalRooms; i++) {
                 roomName = namePrefix + "-" + String.valueOf(roomNumber);
-                Room r = new Room(roomName, location);
+                Room r = new Room(roomName, location, hallwayName, type);
                 hallwayMap.get(hallwayName).addRoom(hallwaySide, r);
                 roomNumber += roomNumberIncrement;
                 location = DistanceCalculator.geoCordFromFeetDistance(location, roomLength, direction);
