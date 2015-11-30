@@ -14,7 +14,7 @@ public class BuildingSection {
 
     // PRIVATE
     private LatLng nwCorner, neCorner, seCorner, swCorner;
-    private final int outlineColor = Color.BLACK;
+    private final int outlineColor = Color.TRANSPARENT;
 
     // PUBLIC
     public HashMap<String, Hallway> hallwayMap;
