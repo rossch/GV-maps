@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rossch.gv_maps" >
+    package="com.example.rossch.gv_maps">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,7 +18,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -28,7 +28,7 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,20 +37,20 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="Main Menu" >
-        </activity>
+            android:label="Main Menu"></activity>
         <activity
             android:name=".NavMenu"
-            android:label="Navigation" >
-        </activity>
+            android:label="Navigation"></activity>
         <activity
             android:name=".BuildingsActivity"
-            android:label="Buildings" >
-        </activity>
+            android:label="Buildings"></activity>
         <activity
             android:name=".RoomsList"
-            android:label="@string/title_activity_rooms_list" >
-        </activity>
+            android:label="@string/title_activity_rooms_list"></activity>
+        <activity
+            android:name=".PathActivity2"
+            android:label="@string/title_activity_path2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -59,4 +59,14 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Path"
+        android:id="@+id/button3"
+        android:onClick="goToPath"
+        android:layout_below="@+id/navButton"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
