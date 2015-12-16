@@ -14,7 +14,9 @@ public class BuildingSection {
 
     // PRIVATE
     private LatLng nwCorner, neCorner, seCorner, swCorner;
-    private final int outlineColor = Color.TRANSPARENT;
+    private final int outlineColor = Color.BLACK;
+    private double width;
+    private double length;
 
     // PUBLIC
     public HashMap<String, Hallway> hallwayMap;
@@ -26,6 +28,8 @@ public class BuildingSection {
     // CONSTRUCTOR
     public BuildingSection(LatLng nwCorner, double width, double length, String name) {
         this.name = name;
+        this.width = width;
+        this.length = length;
         this.hallwayMap = new HashMap<String, Hallway>();
         this.nwCorner = nwCorner;
         this.neCorner = DistanceCalculator.geoCordFromFeetDistance(nwCorner, width, "E");
@@ -42,10 +46,12 @@ public class BuildingSection {
                 .add(nwCorner, neCorner, seCorner, swCorner)
                 .strokeColor(outlineColor)
                 .fillColor(Color.TRANSPARENT));
-
+        Log.d(TAG, "Completed building outline drawing... drawing hallways next");
         // hallways
-        for (Hallway h : hallwayMap.values())
+        for (Hallway h : hallwayMap.values()) {
+            Log.d(TAG, "drawing hallway...");
             h.drawHallway(map);
+        }
     }
 
     /**
@@ -54,8 +60,14 @@ public class BuildingSection {
     public void addHallway(String hallwayName, double feetEast, double feetSouth, double width, double length, String direction) {
         LatLng startingCoord = DistanceCalculator.geoCordFromFeetDistance(nwCorner, feetEast, "E");
         startingCoord = DistanceCalculator.geoCordFromFeetDistance(startingCoord, feetSouth, "S");
-        Hallway hallway = new Hallway(startingCoord, width, length, direction, hallwayName);
+        Hallway hallway = new Hallway(startingCoord, width, length, direction, hallwayName, name);
         hallwayMap.put(hallwayName, hallway);
+        Log.d(TAG, "Hallway added... SECTION: " + name + ", HALLWAY: " + hallwayName);
+    }
+
+    public void addHallwayToMap(LatLng point, double width, double length, String direction, String name) {
+        Hallway hallway = new Hallway(point, width, length, direction, name, this.name);
+        hallwayMap.put(name, hallway);
     }
 
     /**

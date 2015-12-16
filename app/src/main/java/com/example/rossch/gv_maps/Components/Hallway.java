@@ -28,6 +28,7 @@ public class Hallway {
     private ArrayList<Room> side1_rooms;
     private ArrayList<Room> side2_rooms;
     private HashMap<String, Room> specialMarkerMap;
+    private String buildingSectionName;
 
     private final int fillColor = Color.GRAY;
     private final int outlineColor = Color.GRAY;
@@ -39,8 +40,9 @@ public class Hallway {
     private static final String TAG = Hallway.class.getSimpleName();
 
     // CONSTRUCTOR
-    public Hallway(LatLng nwCorner, double width, double length, String direction, String name) {
+    public Hallway(LatLng nwCorner, double width, double length, String direction, String name, String buildingSectionName) {
         this.name = name;
+        this.buildingSectionName = buildingSectionName;
         this.width = width;
         this.length = length;
         this.direction = direction;
@@ -65,12 +67,16 @@ public class Hallway {
      * Determines the dimensions of the hallway
      */
     private void calculateDimensions() {
-        if (direction == "horizontal") {
+        Log.d(TAG, "Direction: " + direction);
+        if (direction.equals("horizontal")) {
+            Log.d(TAG, "is horizontal");
             side1_end = DistanceCalculator.geoCordFromFeetDistance(side1_start, length, "E");
             side2_start = DistanceCalculator.geoCordFromFeetDistance(side1_start, width, "S");
             side2_end = DistanceCalculator.geoCordFromFeetDistance(side2_start, length, "E");
             hallwayPolygonOptions.add(side1_start, side1_end, side2_end, side2_start);
-        } else if (direction == "vertical") {
+            Log.d(TAG, "added points");
+        } else {
+            Log.d(TAG, "is vertical");
             side1_end = DistanceCalculator.geoCordFromFeetDistance(side1_start, length, "S");
             side2_start = DistanceCalculator.geoCordFromFeetDistance(side1_start, width, "E");
             side2_end = DistanceCalculator.geoCordFromFeetDistance(side2_start, length, "S");
@@ -82,8 +88,16 @@ public class Hallway {
      * Draws the hallway and its rooms on the given map
      */
     public void drawHallway(GoogleMap map) {
+        Log.d(TAG, "reached drawHallway");
         // hallway
-        map.addPolygon(hallwayPolygonOptions);
+        try {
+            Log.d(TAG, String.valueOf(hallwayPolygonOptions.getPoints().size()));
+            map.addPolygon(hallwayPolygonOptions);
+        } catch (Exception e) {
+            Log.d(TAG, "ERROR: " + e.getMessage());
+        }
+        Log.d(TAG, "past addPolygon");
+
         // side 1 rooms
         for (Room r1 : side1_rooms) {
             r1.drawRoom(map);
@@ -101,8 +115,7 @@ public class Hallway {
                     .icon(BitmapDescriptorFactory.fromAsset((String) MapsActivity.specialMarkerIconMap.get(room.getType())))
             );
         }
-
-        printRoomTable();
+        Log.d(TAG, "reached end of drawHallway");
     }
 
     /**
@@ -160,20 +173,21 @@ public class Hallway {
     }
 
     public void printRoomTable() {
-        Log.d(TAG, "Hallway Name --- " + name + " ---");
         String line;
         for (Room r1 : side1_rooms) {
             line = r1.getName() + " ";
+            line += name + " ";
+            line += r1.getType() + " ";
             line += String.valueOf(r1.getLocation().latitude) + " ";
-            line += String.valueOf(r1.getLocation().longitude) + " ";
-            line += name;
+            line += String.valueOf(r1.getLocation().longitude);
             Log.d(TAG, line);
         }
         for (Room r2 : side2_rooms) {
             line = r2.getName() + " ";
+            line += name + " ";
+            line += r2.getType() + " ";
             line += String.valueOf(r2.getLocation().latitude) + " ";
-            line += String.valueOf(r2.getLocation().longitude) + " ";
-            line += name;
+            line += String.valueOf(r2.getLocation().longitude);
             Log.d(TAG, line);
         }
     }

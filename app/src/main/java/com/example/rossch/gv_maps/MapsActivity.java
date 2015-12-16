@@ -28,6 +28,8 @@ public class MapsActivity extends FragmentActivity {
 
     private LatLngBounds mackinawBounds;    // boundry for Mackinac building
 
+    private String room;
+
     // logs
     private static final String TAG = MapsActivity.class.getSimpleName();
 
@@ -40,16 +42,23 @@ public class MapsActivity extends FragmentActivity {
     }
     public static final HashMap specialMarkerIconMap = new IconMap();
 
+    public MapsActivity() {
+        room = "";
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
+        //setUpMapIfNeeded();
 
-        String room;
+
         try {
             Bundle bundle = getIntent().getExtras();
-            room = bundle.getString("room");
+            this.room = bundle.getString("room");
+
+            setUpMapIfNeeded();
+
             Context context = getApplicationContext();
             CharSequence text = "Here is the room: " + room;
             int duration = Toast.LENGTH_LONG;
@@ -114,7 +123,12 @@ public class MapsActivity extends FragmentActivity {
 
         // build map
         MapsBuilder builder = new MapsBuilder(gvMap);
-        builder.buildMackinac();
+
+        //builder.createMackinac();
+
+        // build from Parse DB
+        builder.buildMackinac(this.room);
+
         addStairsMarkers();
 
         // update map bounds on map creation
