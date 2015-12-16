@@ -47,8 +47,9 @@ public class RoomsList extends AppCompatActivity {
 
     //Actually makes the request to the parse database and grabs all of the hallways with rooms
     public void getRoomData(String buildingName) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Mackinac");
-        query.whereExists("Rooms");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Rooms");
+        query.whereExists("Name");
+        query.orderByAscending("Name");
         try {
             List<ParseObject> myObjects = query.find();
             storeRoomData(myObjects);
@@ -63,33 +64,32 @@ public class RoomsList extends AppCompatActivity {
         myObjects = newObjects;
         tableMain = (TableLayout) findViewById(R.id.roomsTable);
         for (int i = 0; i < myObjects.size(); i++) {
-            ParseObject temp = myObjects.get(i);
-            final ArrayList tempRoomsArray = (ArrayList) temp.get("RoomArray");
-            for(int j = 0; j < tempRoomsArray.size(); j++){
-                TableRow t1 = new TableRow(this);
-                t1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
-                TextView myText = new TextView(this);
-                myText.setText((String) tempRoomsArray.get(j));
-                myText.setTextSize(TypedValue.COMPLEX_UNIT_PX, 80);
-                myText.setTextColor(Color.parseColor("#FFFFFF"));
-                final int TEMPINT = j;
+            final ParseObject temp = myObjects.get(i);
+            TableRow t1 = new TableRow(this);
 
-                //Set on click listener for every new table row
-                t1.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(), MapsActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("room", (String) tempRoomsArray.get(TEMPINT));
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
-                });
+            t1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
+            TextView myText = new TextView(this);
+            String name = (String) temp.get("Name");
+            String type = (String) temp.get("Type");
+            myText.setText(name + " - " + type );
+            myText.setTextSize(TypedValue.COMPLEX_UNIT_PX, 80);
+            myText.setTextColor(Color.parseColor("#FFFFFF"));
+
+            //Set on click listener for every new table row
+            t1.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("room", (String) temp.get("Name"));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
 
 
-                t1.addView(myText);
-                tableMain.addView(t1);
-            }
+            t1.addView(myText);
+            tableMain.addView(t1);
         }
     }
 
